@@ -22,7 +22,8 @@ class AppRoutes {
     }
   }
 
-  static final String _initialPage = _lastVisitedPage() ?? '/splash';
+  //static final String _initialPage = _lastVisitedPage() ?? '/splash';
+    static final String _initialPage = '/splash'; // Prueba con una página fija
   static GoRouter router = GoRouter(
     navigatorKey: _navigatorKey,
     initialLocation: _initialPage,
@@ -74,16 +75,21 @@ class AppRoutes {
           return SelectedProductPage(product: product);
         },
       ),
+
       GoRoute(
-        path: '/sub-category/:id',
-        builder: (context, state) {
-          final String categoryId = state.pathParameters['id']!;
-          return SubCategoryPage(
-            key: ValueKey(categoryId),
-            categoryId: categoryId,
-          );
-        },
-      ),
+  path: '/sub-category/:id',
+  builder: (context, state) {
+    final String? categoryId = state.pathParameters['id'];
+    if (categoryId == null) {
+      return const HomePage(); // Si el ID es nulo, regresa al home
+    }
+    return SubCategoryPage(
+      key: ValueKey(categoryId),
+      categoryId: categoryId,
+    );
+  },
+),
+
       GoRoute(
         path: '/cart',
         builder: (context, state) => const Cart(

@@ -59,11 +59,18 @@ class MyApp extends StatelessWidget {
         locale:
             Locale(context.watch<SettingsBloc>().state.currentLanguage.value),
         debugShowCheckedModeBanner: false,
-        builder: (context, child) {
-          return ConnectivityListener(
-            child: child!,
-          );
-        },
+builder: (context, child) {
+  return Overlay(
+    initialEntries: [
+      OverlayEntry(
+        builder: (context) => ConnectivityListener(
+          child: child ?? SizedBox.shrink(),
+        ),
+      ),
+    ],
+  );
+},
+
       ),
     );
   }

@@ -125,20 +125,17 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
                           Icons.arrow_back_ios,
                           color: Colors.white,
                         ),
-                        onPressed: () {
-                          if (state.selectedParentCategory ==
-                              state.selectedSubCategory.parentCategoryId) {
-                            if (mounted) {
-                                Navigator.pushReplacementNamed(context, '/home'); //Navegación más segura
-                              }
+onPressed: () {
+  if (context.mounted && Navigator.of(context).canPop()) {
+    Navigator.of(context).pop();
+  } else if (context.mounted) {
+    context.go('/home');
+  }
+}
 
-                            return;
-                          }
-                          context.read<ProductsBloc>().add(
-                              AddSelectedSubCategoryEvent(
-                                  selectedSubCategoryId: state
-                                      .selectedSubCategory.parentCategoryId));
-                        },
+
+
+
                       ),
                       backgroundColor: AppTheme.palette[900],
                       title: state.categoryHeaderImages.isNotEmpty
